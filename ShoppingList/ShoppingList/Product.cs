@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Shopping
+﻿namespace Shopping
 {
     public class Product
     {
@@ -18,12 +16,19 @@ namespace Shopping
         public static decimal GetTotalPrice(Product[] list)
         {
             decimal result = 0;
+            if (list == null || list.Length == 0)
+            {
+                return 0m;
+            }
 
             for (int i = 0; i < list.Length; i++)
+            {
                 result += Discount.GetDiscounts(list[i].price, list[i].discounts);
+            }
+
             return result;
-        }       
+        }
+
+        public override string ToString() => name;
     }
-
-
 }
