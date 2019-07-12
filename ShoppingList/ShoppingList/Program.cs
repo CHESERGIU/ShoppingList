@@ -8,61 +8,65 @@ namespace Shopping
         {
             public string name;
             public decimal price;
+            public Discount discounts;
 
-            public Product(string name, decimal price)
+            public Product(string name, decimal price, Discount discounts)
             {
                 this.name = name;
                 this.price = price;
+                this.discounts = discounts;
             }
         }
 
-        public enum ShippingType
+        public enum Discount
         {
-            warehouse,
-            courier,
-            priority
+            none,
+            percentageOff, // ("10% off all items", discount 0.10m);
+            spendXgetY, // ("Spend less lei and get 3 of a kind", discount 20%);
+            buyXGetY // ("Buy 2 get 1 free", discount 33%)
         }
 
         public static void Main()
         {
-            Product[] shoppingList = ReadShoppingList();
-            ShippingType shippingMethod = (ShippingType)Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine(GetTotalPrice(shoppingList, shippingMethod));
+            Product[] list = ReadList();
+            Console.WriteLine(GetTotalPrice(list));
             Console.Read();
         }
 
-        public static decimal GetTotalPrice(Product[] shoppingList, ShippingType shippingMethod)
+        public static decimal GetTotalPrice(Product[] list)
         {
             decimal result = 0;
-            for (int i = 0; i < shoppingList.Length; i++)
-                result += shoppingList[i].price;
-
-            result += GetShippingPrice(result, shippingMethod);
+            
+            for (int i = 0; i < list.Length; i++)
+                result += GetDiscounts(list[i].price, list[i].discounts);
             return result;
         }
 
-        public static decimal GetShippingPrice(decimal result, ShippingType shippingMethod)
+        public static decimal GetDiscounts(decimal price, Discount discounts)
         {
-            if (shippingMethod == ShippingType.courier && result <= 150)
+            if (discounts == Discount.percentageOff)
             {
-                return 45;
+                return price * (decimal) 0.90;
             }
-            if (shippingMethod == ShippingType.priority && result <= 450)
+            if (discounts == Discount.spendXgetY)
             {
-                return 90;
+                return price * (decimal) 0.70;
+            }
+            if (discounts == Discount.buyXGetY)
+            {
+                return price * (decimal) 0.50;
             }
 
             return 0;
         }
 
-        public static Product[] ReadShoppingList()
-        {
-            int numberOfProducts = Convert.ToInt32(Console.ReadLine());
-            Product[] result = new Product[numberOfProducts];
-            for (int i = 0; i < numberOfProducts; i++)
+        public static Product[] ReadList()
+        {            
+            Product[] result = new Product[2];
+            for (int i = 0; i < result.Length; i++)
             {
-                string[] item = Console.ReadLine().Split(':');
-                result[i] = new Product(item[0], Convert.ToDecimal(item[1]));
+                string[] item = Console.ReadLine().Split(',');
+                result[i] = new Product(item[0], Convert.ToDecimal(item[1]), (Discount)Convert.ToInt32(item[2]));
             }
             return result;
         }

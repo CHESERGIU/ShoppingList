@@ -9,12 +9,17 @@ namespace ShoppingList.Tests
         [Fact]
         public void WhenWeBuyAMouseAndChoseCurierShipping()
         {
-            var shoppingList = new Program.Product[1];
-            shoppingList[0].name = "mouse";
-            shoppingList[0].price = 45;
-            var shippingMethod = (Program.ShippingType)1;
-            decimal actual = Program.GetTotalPrice(shoppingList, shippingMethod);
-            Assert.Equal(90, actual);
+            var product = new Program.Product[2];         
+
+            product[0].name = "mouse";
+            product[0].price = 1 * 45;
+            product[0].discounts = (Program.Discount)1;
+            product[1].name = "laptop bag";
+            product[1].price = 3 * 10;
+            product[1].discounts = (Program.Discount)3;
+
+            decimal actual = Program.GetTotalPrice(product);
+            Assert.Equal((decimal) 55.5, actual);
 
         }
     }
