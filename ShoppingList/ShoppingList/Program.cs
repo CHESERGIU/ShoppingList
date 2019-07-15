@@ -4,12 +4,11 @@ namespace Shopping
 {
     public static class Program
     {
-        const int DicountType = 2;
-
         public static void Main()
         {
             Product[] list = ReadList();
-            Console.WriteLine(Product.GetTotalPrice(list));
+            Discount listOfProducts = new Discount(list[0], 0, 0);
+            Console.WriteLine(list[0].GetTotalPrice(list, listOfProducts));
             Console.Read();
         }
 
@@ -19,7 +18,7 @@ namespace Shopping
             for (int i = 0; i < result.Length; i++)
             {
                 string[] item = Console.ReadLine().Split(',');
-                result[i] = new Product(item[0], Convert.ToDecimal(item[1]), (Discount.DiscountType)Convert.ToInt32(item[DicountType]));
+                result[i] = new Product(item[0], Convert.ToDecimal(item[1]));
             }
 
             return result;

@@ -4,16 +4,14 @@
     {
         readonly string name;
         readonly decimal price;
-        readonly Discount.DiscountType discounts;
 
-        public Product(string name, decimal price, Discount.DiscountType discounts)
+        public Product(string name, decimal price)
         {
             this.name = name;
             this.price = price;
-            this.discounts = discounts;
         }
 
-        public static decimal GetTotalPrice(Product[] list)
+        public decimal GetTotalPrice(Product[] list, Discount listOfProducts)
         {
             decimal result = 0;
             if (list == null || list.Length == 0)
@@ -23,12 +21,22 @@
 
             for (int i = 0; i < list.Length; i++)
             {
-                result += Discount.GetDiscounts(list[i].price, list[i].discounts);
+                if (listOfProducts == null)
+                {
+                    return 0m;
+                }
+
+                result += listOfProducts.GetDiscounts(price, listOfProducts);
             }
 
             return result;
         }
 
         public override string ToString() => name;
+
+        public decimal ToDecimal()
+        {
+            return price;
+        }
     }
 }

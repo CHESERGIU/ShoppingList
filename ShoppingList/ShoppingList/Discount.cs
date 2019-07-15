@@ -4,49 +4,67 @@ namespace Shopping
 {
     public class Discount
     {
-        const int Discount10 = 10;
-        const int Discount20 = 20;
-        const int Discount33 = 33;
-        const int Discount66 = 66;
+        const decimal Discount10 = 0.1m;
+        const decimal Discount20 = 0.2m;
+        const decimal Discount33 = 0.33m;
+        const decimal Discount66 = 0.66m;
+        const decimal PercentageOff = 50;
+        readonly decimal buyXGetY = 100;
+        readonly decimal buyXSpendY = 500;
+        readonly decimal spendXGetY = 1000;
+        readonly decimal pricePrice;
+        readonly int quantity;
+        readonly Product product;
 
-        public enum DiscountType
+        public Discount(Product product, decimal price, int quantity)
         {
-            None,
-            PercentageOff,
-            SpendXGetY,
-            BuyXGetY,
-            BuyXSpendY
+            this.product = product;
+            this.pricePrice = price;
+            this.quantity = quantity;
         }
 
-        public static decimal GetDiscounts(decimal price, DiscountType discounts)
+        public decimal GetDiscounts(decimal price, Discount listOfProducts)
         {
-            switch (discounts)
+            if (listOfProducts == null)
             {
-                case DiscountType.PercentageOff:
-                    {
-                        return price - (Discount10 % price);
-                    }
-
-                case DiscountType.SpendXGetY:
-                    {
-                        return price - (Discount20 % price);
-                    }
-
-                case DiscountType.BuyXGetY:
-                    {
-                        return price - (Discount33 % price);
-                    }
-
-                case DiscountType.BuyXSpendY:
-                    {
-                        return price - (Discount66 % price);
-                    }
-
-                default:
-                    {
-                        return 0;
-                    }
+                return pricePrice;
             }
+
+            if (price == PercentageOff)
+            {
+                return SubTotal(price) - (Discount10 * SubTotal(price));
+            }
+            else if (price == spendXGetY)
+            {
+                return SubTotal(price) - (Discount20 * SubTotal(price));
+            }
+            else if (price == buyXGetY)
+            {
+                return SubTotal(price) - (Discount33 * SubTotal(price));
+            }
+            else if (price == buyXSpendY)
+            {
+                return SubTotal(price) - (Discount66 * SubTotal(price));
+            }
+            else
+            {
+                return price;
+            }
+        }
+
+        public decimal SubTotal(decimal price)
+        {
+            if (product == null)
+            {
+                return 0;
+            }
+
+            if (quantity > 1)
+            {
+                return price * quantity;
+            }
+
+            return price;
         }
     }
 }
