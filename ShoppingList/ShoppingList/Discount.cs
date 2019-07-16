@@ -4,47 +4,47 @@ namespace Shopping
 {
     public class Discount
     {
-        const decimal Discount10 = 0.1m;
-        const decimal Discount20 = 0.2m;
-        const decimal Discount33 = 0.33m;
-        const decimal Discount66 = 0.66m;
-        const decimal PercentageOff = 50;
-        readonly decimal buyXGetY = 100;
-        readonly decimal buyXSpendY = 500;
-        readonly decimal spendXGetY = 1000;
-        readonly decimal pricePrice;
+        readonly double price;
         readonly int quantity;
-        readonly Product product;
+        readonly Number offer;
 
-        public Discount(Product product, decimal price, int quantity)
+        public Discount(double price, int quantity)
         {
-            this.product = product;
-            this.pricePrice = price;
+            this.offer = new Number();
+            this.price = price;
             this.quantity = quantity;
         }
 
-        public decimal GetDiscounts(decimal price, Discount listOfProducts)
+        public double GetDiscounts()
         {
-            if (listOfProducts == null)
+            switch (price)
             {
-                return pricePrice;
-            }
+                case 0:
+                    {
+                        return GetPrices();
+                    }
 
-            if (price == PercentageOff)
-            {
-                return SubTotal(price) - (Discount10 * SubTotal(price));
+                case 1:
+                    {
+                        return GetQuantity();
+                    }
+
+                default:
+                    {
+                        return 0;
+                    }
             }
-            else if (price == spendXGetY)
+        }
+
+        public double GetPrices()
+        {
+            if (price >= offer.FivePiece && price < offer.HundredPiece)
             {
-                return SubTotal(price) - (Discount20 * SubTotal(price));
+                return Price() - offer.TenPiece * Price();
             }
-            else if (price == buyXGetY)
+            else if (price >= offer.HundredPiece)
             {
-                return SubTotal(price) - (Discount33 * SubTotal(price));
-            }
-            else if (price == buyXSpendY)
-            {
-                return SubTotal(price) - (Discount66 * SubTotal(price));
+                return Price() - offer.TwentyProcentOff * Price();
             }
             else
             {
@@ -52,13 +52,24 @@ namespace Shopping
             }
         }
 
-        public decimal SubTotal(decimal price)
+        public double GetQuantity()
         {
-            if (product == null)
+            if (quantity > offer.FivePiece && quantity < offer.TenPiece)
             {
-                return 0;
+                return Price() - offer.ThirdProcentOff * Price();
             }
+            else if (quantity >= offer.TenPiece)
+            {
+                return Price() - offer.SixtyProcentOff * Price();
+            }
+            else
+            {
+                return price;
+            }
+        }
 
+        public double Price()
+        {
             if (quantity > 1)
             {
                 return price * quantity;

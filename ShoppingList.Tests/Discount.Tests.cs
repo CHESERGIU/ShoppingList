@@ -11,11 +11,11 @@ namespace ShoppingList.Tests
         {
             var product = new Product[2];
 
-            var mouse = new Discount(product[0], 45, 1);
-            var laptopbag = new Discount(product[1], 10, 3);
+            var mouse = new Discount(45, 1);
+            var laptopbag = new Discount(10, 3);
 
-            decimal actual = mouse.GetDiscounts(45, mouse) + laptopbag.GetDiscounts(30, laptopbag);
-            Assert.Equal((decimal)75, actual);
+            double actual = mouse.GetDiscounts() + laptopbag.GetDiscounts();
+            Assert.Equal((double)75, actual);
         }
     }
 }

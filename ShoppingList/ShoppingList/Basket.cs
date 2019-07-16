@@ -10,7 +10,7 @@ namespace Shopping
         public Basket()
         {
             this.list = new Product[] { };
-            this.discounts = new Discount(new Product("", 0), 0, 0);
+            this.discounts = new Discount(0, 0);
         }
 
         public void Buy(Product product)
@@ -19,9 +19,30 @@ namespace Shopping
             this.list[list.Length - 1] = product;
         }
 
-        public decimal Pay()
+        public double Pay()
         {
-            return list[0].GetTotalPrice(this.list, discounts);
+            return GetTotalPrice();
+        }
+
+        public double GetTotalPrice()
+        {
+            double result = 0;
+            if (list == null || list.Length == 0)
+            {
+                return 0;
+            }
+
+            for (int i = 0; i < list.Length; i++)
+            {
+                if (discounts == null)
+                {
+                    return 0;
+                }
+
+                result += discounts.GetDiscounts();
+            }
+
+            return result;
         }
     }
 }

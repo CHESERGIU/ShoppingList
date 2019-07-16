@@ -6,9 +6,11 @@ namespace Shopping
     {
         public static void Main()
         {
+            var number = new Number();
             Product[] list = ReadList();
-            Discount listOfProducts = new Discount(list[0], 0, 0);
-            Console.WriteLine(list[0].GetTotalPrice(list, listOfProducts));
+            Basket shopping = new Basket();
+            shopping.Buy(new Product("beer", number.HundredPiece));
+            Console.WriteLine(shopping.GetTotalPrice());
             Console.Read();
         }
 
@@ -18,7 +20,7 @@ namespace Shopping
             for (int i = 0; i < result.Length; i++)
             {
                 string[] item = Console.ReadLine().Split(',');
-                result[i] = new Product(item[0], Convert.ToDecimal(item[1]));
+                result[i] = new Product(item[0], Convert.ToDouble(item[1]));
             }
 
             return result;
