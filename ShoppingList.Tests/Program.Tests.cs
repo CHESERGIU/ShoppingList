@@ -10,14 +10,18 @@ namespace ShoppingList.Tests
         public void WhenWeBuyAMouseAndChoseCourierShipping()
         {
             var product = new Product[2];
-            Basket shopping = new Basket();
-            product[0] = new Product("mouse", 1 * 45);
-            product[1] = new Product("laptop bag", 3 * 10);
-            var mouse = new Discount(45, 1);
-            var laptopbag = new Discount(10, 3);
 
-            double actual = shopping.GetTotalPrice();
-            Assert.Equal((double)75, actual);
+            var shopping = new Basket();
+
+            product[0] = new Product("mouse", 45, 1);
+            product[1] = new Product("laptop bag", 10, 1);
+
+            Product[] list = { product[0], product[1] };
+
+            shopping.Buy(product[0]);
+            shopping.Buy(product[1]);
+            var actual = shopping.Pay();
+            Assert.Equal((double)55, actual);
         }
     }
 }

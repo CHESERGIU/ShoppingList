@@ -10,12 +10,13 @@ namespace ShoppingList.Tests
         public void WhenWeBuyWithAndWithoutDiscounts()
         {
             var product = new Product[2];
+            product[0] = new Product("mouse", 45, 1);
+            product[1] = new Product("laptop bag", 10, 1);
+            Product[] list = { product[0], product[1] };
+            var discount = new Discount(list);
 
-            var mouse = new Discount(45, 1);
-            var laptopbag = new Discount(10, 3);
-
-            double actual = mouse.GetDiscounts() + laptopbag.GetDiscounts();
-            Assert.Equal((double)75, actual);
+            var actual = discount.GetDiscount(list);
+            Assert.Equal((double)55, actual);
         }
     }
 }

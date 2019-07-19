@@ -4,78 +4,73 @@ namespace Shopping
 {
     public class Discount
     {
-        readonly double price;
-        readonly int quantity;
-        readonly Number offer;
+        const int Five = 5;
+        const int Hundred = 99;
+        readonly Product[] list;
+        double result;
+        double sum;
+        int quantity;
 
-        public Discount(double price, int quantity)
+        public Discount(Product[] list)
         {
-            this.offer = new Number();
-            this.price = price;
-            this.quantity = quantity;
+            this.list = list;
         }
 
-        public double GetDiscounts()
+        public double GetDiscount(Product[] list)
         {
-            switch (price)
+            TotalPrice(list, ref sum, ref quantity);
+            result = SpendXGetY(list, result, sum, quantity, Five, Hundred);
+            return result;
+        }
+
+        public void TotalPrice(Product[] list, ref double sum, ref int quantity)
+        {
+            foreach (var product in list)
             {
-                case 0:
-                    {
-                        return GetPrices();
-                    }
-
-                case 1:
-                    {
-                        return GetQuantity();
-                    }
-
-                default:
-                    {
-                        return 0;
-                    }
+                sum += product.Price() * product.Quantity();
+                quantity += product.Quantity();
             }
         }
 
-        public double GetPrices()
+        public double BuyXPayLess(Product[] products, double result, int quantity, int f = 5) =>
+            quantity >= f ? PayLessForMore(products, result) : GetPrice(products, result);
+
+        public double SpendXGetY(Product[] products, double result, double sum, int quantity, int f, int h = 99)
         {
-            if (price >= offer.FivePiece && price < offer.HundredPiece)
-            {
-                return Price() - offer.TenPiece * Price();
-            }
-            else if (price >= offer.HundredPiece)
-            {
-                return Price() - offer.TwentyProcentOff * Price();
-            }
-            else
-            {
-                return price;
-            }
+            return sum > h ? ProcentageOff(products, result) : quantity >= f ?
+                BuyXPayLess(list, result, quantity, f) : GetPrice(products, result);
         }
 
-        public double GetQuantity()
+        public double GetPrice(Product[] products, double result)
         {
-            if (quantity > offer.FivePiece && quantity < offer.TenPiece)
+            foreach (var product in products)
             {
-                return Price() - offer.ThirdProcentOff * Price();
+                result += product.Price() * product.Quantity();
             }
-            else if (quantity >= offer.TenPiece)
-            {
-                return Price() - offer.SixtyProcentOff * Price();
-            }
-            else
-            {
-                return price;
-            }
+
+            return result;
         }
 
-        public double Price()
+        public double PayLessForMore(Product[] products, double result)
         {
-            if (quantity > 1)
+            foreach (var product in products)
             {
-                return price * quantity;
+                var twentyOff = product.Price() * product.Quantity() * 0.5;
+                result += product.Price() * product.Quantity() - twentyOff;
             }
 
-            return price;
+            return result;
+        }
+
+        public double ProcentageOff(Product[] products, double result)
+        {
+            foreach (var product in products)
+            {
+                var twentyOff = product.Price() * product.Quantity() * 0.2;
+                result += product.Price() * product.Quantity() - twentyOff;
+            }
+
+            return result;
         }
     }
 }
