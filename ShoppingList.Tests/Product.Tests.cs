@@ -7,18 +7,44 @@ namespace ShoppingList.Tests
     public class ProductTests
     {
         [Fact]
-        public void WhenWeTestProducts()
+        public void TestClassForMethodsOfPriceAndQuantity()
         {
-            var product = new Product[2];
+            var laptop = new Product("laptop", 2200, 1);
+            var mouse = new Product("mouse", 200, 1);
 
-            product[0] = new Product("mouse", 45, 1);
-            product[1] = new Product("laptop bag", 10, 1);
+            // Object reference
+            var shoping1 = new Product(laptop);
+            var shoping2 = new Product(mouse);
 
-            var actual = product[0].Price() + product[1].Price();
-            var quantity = product[0].Quantity() + product[1].Quantity();
+            var actual = shoping1.Price() + shoping2.Price();
+            var pieces = shoping1.Quantity();
 
-            Assert.Equal((double)55, actual);
-            Assert.Equal((double)2, quantity);
+            Assert.Equal(1, pieces);
+            Assert.Equal(2400, actual);
+        }
+
+        [Fact]
+        public void TestClassForName()
+        {
+            var laptop = new Product("laptop", 2200, 1);
+            const string actual = nameof(laptop);
+
+            Assert.Equal(laptop.ToString(), actual);
+        }
+
+        [Fact]
+        public void TestWhenHave5ProductReturnTotalPriceNoDiscount()
+        {
+            var laptop = new Product("laptop", 2200, 5);
+
+            // Object reference
+            var shoping1 = new Product(laptop);
+
+            var price = shoping1.Price();
+            var quantity = shoping1.Quantity();
+
+            Assert.Equal(11000, price);
+            Assert.Equal(5, quantity);
         }
     }
 }

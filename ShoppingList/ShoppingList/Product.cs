@@ -7,24 +7,30 @@ namespace Shopping
         readonly string name;
         readonly double price;
         readonly int quantity;
+        readonly Product product;
 
-        public Product(string product, double price, int quantity)
+        public Product(string product, double prices, int quantity)
         {
             this.name = product;
-            this.price = price;
+            this.price = prices;
             this.quantity = quantity;
         }
 
-        public override string ToString() => name;
+        public Product(Product product)
+        {
+            this.product = product;
+        }
 
         public double Price()
         {
-            return price;
+            return product.price * product.quantity;
         }
 
         public int Quantity()
         {
-            return quantity;
+            return product.quantity;
         }
+
+        public override string ToString() => name;
     }
 }

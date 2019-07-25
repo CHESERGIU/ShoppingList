@@ -5,12 +5,12 @@ namespace Shopping
     public class Basket
     {
         readonly Discount discounts;
-        Product[] list;
+        private Product[] list;
 
         public Basket()
         {
             this.list = new Product[] { };
-            this.discounts = new Discount(list);
+            this.discounts = new Discount(new Product(new Product("", 0, 0)));
         }
 
         public void Buy(Product product)
