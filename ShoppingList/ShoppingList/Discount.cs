@@ -4,24 +4,34 @@ namespace Shopping
 {
     public class Discount
     {
-        readonly Product product;
-
-        public Discount(Product product)
+        public double GetDiscount(double price, double quantity)
         {
-            this.product = product;
+            const int Hundred = 100;
+            const int Five = 5;
+            if (price >= Hundred && quantity < Five)
+            {
+                return ProcentageOff(price);
+            }
+            else if (quantity >= Five)
+            {
+                return TakeFivePayThree(price);
+            }
+            else
+            {
+                return price;
+            }
         }
 
-        public double GetDiscount(Product[] list)
+        double ProcentageOff(double price)
         {
-            double result = 0;
-            for (int i = 0; i < list.Length; i++)
-            {
-                result = product.GetSum(list[i].Price()) ?
-                    product.ProcentageOff(result, list[i]) : product.GetQuantity() ?
-                    product.TakeFivePayThree(result, list[i]) : product.TotalCost(result, list[i]);
-            }
+            var twentyProcentageOff = price * 0.2;
+            return price - twentyProcentageOff;
+        }
 
-            return result;
+        double TakeFivePayThree(double price)
+        {
+            var takeFivePayThree = price * 0.4;
+            return price - takeFivePayThree;
         }
     }
 }

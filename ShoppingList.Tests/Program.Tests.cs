@@ -13,18 +13,18 @@ namespace ShoppingList.Tests
 
             var shopping = new Basket();
 
-            product[0] = new Product("mouse", 45, 1);
-            product[1] = new Product("laptop bag", 10, 1);
+            product[0] = new Product("mouse", 100, 1);
+            product[1] = new Product("laptop bag", 100, 1);
 
             Product[] list = { product[0], product[1] };
 
-            var mouse = new Product(product[0]);
-            var laptop = new Product(product[1]);
+            var mouse = product[0];
+            var laptop = product[1];
 
             shopping.Buy(mouse);
             shopping.Buy(laptop);
             var actual = shopping.Pay();
-            Assert.Equal((double)55, actual);
+            Assert.Equal(160, actual);
         }
     }
 }

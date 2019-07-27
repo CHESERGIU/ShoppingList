@@ -5,23 +5,25 @@ namespace Shopping
     public class Basket
     {
         readonly Discount discounts;
-        private Product[] list;
+        readonly Product product;
+        Product[] list;
 
         public Basket()
         {
-            this.list = new Product[] { };
-            this.discounts = new Discount(new Product(new Product("", 0, 0)));
+            product = new Product("", 0, 0);
+            list = new Product[] { };
+            discounts = new Discount();
         }
 
         public void Buy(Product product)
         {
             Array.Resize(ref list, list.Length + 1);
-            this.list[list.Length - 1] = product;
+            list[list.Length - 1] = product;
         }
 
         public double Pay()
         {
-            return discounts.GetDiscount(list);
+            return discounts.GetDiscount(product.GetPrices(list), product.GetQuantity(list));
         }
     }
 }

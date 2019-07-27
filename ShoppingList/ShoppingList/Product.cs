@@ -7,7 +7,6 @@ namespace Shopping
         readonly string name;
         readonly double price;
         readonly int quantity;
-        readonly Product product;
 
         public Product(string product, double prices, int quantity)
         {
@@ -16,51 +15,26 @@ namespace Shopping
             this.quantity = quantity;
         }
 
-        public Product(Product product)
+        public double GetPrices(Product[] list)
         {
-            this.product = product;
-        }
+            double result = 0;
+            foreach (var item in list)
+            {
+                result += item.price * item.quantity;
+            }
 
-        public double Price()
-        {
-            return product.price * product.quantity;
-        }
-
-        public int Quantity()
-        {
-            return product.quantity;
-        }
-
-        public double ProcentageOff(double result, Product item)
-        {
-            var twentyProcentageOff = item.Price() * 0.2;
-            result += item.Price() - twentyProcentageOff;
             return result;
         }
 
-        public double TakeFivePayThree(double result, Product item)
+        public double GetQuantity(Product[] list)
         {
-            var takeFivePayThree = item.Price() * 0.4;
-            result += item.Price() - takeFivePayThree;
+            double result = 0;
+            foreach (var item in list)
+            {
+                result += item.quantity;
+            }
+
             return result;
-        }
-
-        public double TotalCost(double result, Product item)
-        {
-            result += item.Price();
-            return result;
-        }
-
-        public bool GetQuantity()
-        {
-            const int Five = 5;
-            return product.Quantity() == Five;
-        }
-
-        public bool GetSum(double sum)
-        {
-            const int Hundred = 100;
-            return sum > Hundred;
         }
 
         public override string ToString() => name;
