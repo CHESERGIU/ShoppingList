@@ -4,13 +4,11 @@ namespace Shopping
 {
     public class Basket
     {
-        readonly Discount pay;
         Product[] list;
 
-        public Basket(Product[] list)
+        public Basket()
         {
-            this.list = list;
-            pay = new Discount(list);
+            this.list = new Product[] { };
         }
 
         public void Buy(Product product)
@@ -18,7 +16,5 @@ namespace Shopping
             Array.Resize(ref list, list.Length + 1);
             list[list.Length - 1] = product;
         }
-
-        public double Pay() => pay.TotalPrice();
     }
 }

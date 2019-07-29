@@ -2,20 +2,19 @@ namespace Shopping
 {
     public class Discount
     {
-        readonly Product[] list;
+        private readonly double quantity;
+        private readonly Product product;
 
-        public Discount(Product[] list)
+        public Discount(Product product, double quantity)
         {
-            this.list = list;
+            this.quantity = quantity;
+            this.product = product;
         }
 
-        public double TotalPrice()
+        public double Price()
         {
             var sum = 0.0;
-            for (int i = 0; i < list.Length; i++)
-            {
-                sum += list[i].GetPrices(list[i]);
-            }
+            sum += product.GetPrice(quantity);
 
             return sum;
         }
