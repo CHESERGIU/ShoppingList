@@ -7,33 +7,31 @@ namespace ShoppingList.Tests
     public class ProductTests
     {
         [Fact]
-        public void TestClassForMethodsOfPriceAndQuantity()
+        public void CanCreateProductWithValuesToTest()
         {
-            var laptop = new Product("laptop", 2200, 1);
-            var mouse = new Product("mouse", 200, 1);
+            var product = new Product("laptop", 2200, 5);
 
-            Product[] list = { mouse, laptop };
-            var actual = mouse.GetPrices(list);
-            Assert.Equal(2400, actual);
+            Assert.Equal("laptop", product.ToString());
+            Assert.Equal(11000, product.GetPrices(product));
+            Assert.True(product.IsCostForDiscount(product));
+            Assert.Equal(6600, product.PayLessProducts(product));
+            Assert.True(product.HasQuantityForDiscount(product));
+            Assert.Equal(8800, product.ProcentageOff(product));
+            Assert.Equal(5, product.GetQuantity(product));
         }
 
         [Fact]
-        public void TestClassForName()
+        public void CanCreateProductWithValuesToTestClass()
         {
-            var laptop = new Product("laptop", 2200, 1);
-            const string actual = nameof(laptop);
+            var product = new Product("mouse", 25, 10);
 
-            Assert.Equal(laptop.ToString(), actual);
-        }
-
-        [Fact]
-        public void TestWhenHave5ProductReturnTotalPriceNoDiscount()
-        {
-            var laptop = new Product("laptop", 2200, 5);
-            Product[] list = { laptop };
-            var price = laptop.GetPrices(list);
-
-            Assert.Equal(11000, price);
+            Assert.Equal("mouse", product.ToString());
+            Assert.Equal(250, product.GetPrices(product));
+            Assert.False(product.IsCostForDiscount(product));
+            Assert.Equal(150, product.PayLessProducts(product));
+            Assert.True(product.HasQuantityForDiscount(product));
+            Assert.Equal(200, product.ProcentageOff(product));
+            Assert.Equal(10, product.GetQuantity(product));
         }
     }
 }

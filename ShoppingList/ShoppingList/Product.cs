@@ -15,26 +15,44 @@ namespace Shopping
             this.quantity = quantity;
         }
 
-        public double GetPrices(Product[] list)
-        {
-            double result = 0;
-            foreach (var item in list)
-            {
-                result += item.price * item.quantity;
-            }
+        public double GetPrices(Product item) => item.price * item.quantity;
 
-            return result;
+        public double GetQuantity(Product item) => item.quantity;
+
+        public bool IsCostForDiscount(Product item)
+        {
+            const int discountCost = 100; // products price for discount
+            return item.price >= discountCost;
         }
 
-        public double GetQuantity(Product[] list)
+        public bool HasQuantityForDiscount(Product item)
         {
-            double result = 0;
-            foreach (var item in list)
+            int[] piecesForDiscount = { 5, 10 }; // products quantity for discount
+            foreach (var piece in piecesForDiscount)
             {
-                result += item.quantity;
+                if (piece <= item.quantity)
+                {
+                    return true;
+                }
             }
 
-            return result;
+            return false;
+        }
+
+        public double ProcentageOff(Product item) => GetPrices(item) * (1 - ProcentageOff());
+
+        public double ProcentageOff()
+        {
+            double[] procent = { 0.2 };
+            return procent[0];
+        }
+
+        public double PayLessProducts(Product item) => GetPrices(item) * (1 - PayLessProducts());
+
+        public double PayLessProducts()
+        {
+            double[] fractionalQuantity = { 0.4 };
+            return fractionalQuantity[0];
         }
 
         public override string ToString() => name;

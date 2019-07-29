@@ -1,37 +1,31 @@
-using System;
-
 namespace Shopping
 {
     public class Discount
     {
-        public double GetDiscount(double price, double quantity)
+        public double TotalPrice(Product[] list)
         {
-            const int Hundred = 100;
-            const int Five = 5;
-            if (price >= Hundred && quantity < Five)
+            double result = 0;
+            foreach (var item in list)
             {
-                return ProcentageOff(price);
+                result += GetDiscountPerProduct(item);
             }
-            else if (quantity >= Five)
-            {
-                return TakeFivePayThree(price);
-            }
-            else
-            {
-                return price;
-            }
+
+            return result;
         }
 
-        double ProcentageOff(double price)
+        public double GetDiscountPerProduct(Product item)
         {
-            var twentyProcentageOff = price * 0.2;
-            return price - twentyProcentageOff;
-        }
+            if (item.IsCostForDiscount(item))
+            {
+                return item.ProcentageOff(item);
+            }
 
-        double TakeFivePayThree(double price)
-        {
-            var takeFivePayThree = price * 0.4;
-            return price - takeFivePayThree;
+            if (item.HasQuantityForDiscount(item))
+            {
+                return item.PayLessProducts(item);
+            }
+
+            return item.GetPrices(item);
         }
     }
 }

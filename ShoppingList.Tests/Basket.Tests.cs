@@ -14,7 +14,7 @@ namespace ShoppingList.Tests
             var onion = new Product("onion", 100, 1);
             var cherry = new Product("cherry", 100, 1);
             var cocaCola = new Product("cocaCola", 100, 1);
-            var beer = new Product("beer", 200, 1);
+            var beer = new Product("beer", 100, 1);
             var wine = new Product("wine", 100, 1);
             shopping.Buy(onion);
             shopping.Buy(cherry);
@@ -26,7 +26,7 @@ namespace ShoppingList.Tests
             var actual = shopping.Pay();
 
             // Then
-            Assert.Equal((double)360, actual);
+            Assert.Equal((double)400, actual);
         }
 
         [Fact]

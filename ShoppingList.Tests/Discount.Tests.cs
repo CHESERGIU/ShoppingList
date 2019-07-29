@@ -9,10 +9,9 @@ namespace ShoppingList.Tests
         [Fact]
         public void WhenWeBuy5ProductMustReturnOfferTake5AndPay3()
         {
-            var mouses = new Product("mouse", 50, 5);
             var discount = new Discount();
             Product[] list = { new Product("mouse", 50, 5) };
-            var actual = discount.GetDiscount(mouses.GetPrices(list), mouses.GetQuantity(list));
+            var actual = discount.TotalPrice(list);
 
             Assert.Equal(150, actual);
         }
@@ -20,7 +19,7 @@ namespace ShoppingList.Tests
         [Fact]
         public void WhenWeBuyProductsMoreThen100EuroMustReturn20ProcentageOff()
         {
-            var product = new Product("0", 0, 0);
+            var product = new Product("", 0, 0);
             var discount = new Discount();
             Product[] list =
             {
@@ -29,9 +28,11 @@ namespace ShoppingList.Tests
                 new Product("laptop bag", 100, 1)
             };
 
-            var actual = discount.GetDiscount(product.GetPrices(list), product.GetQuantity(list));
+            var actual = discount.TotalPrice(list);
+            var actualPrice = discount.GetDiscountPerProduct(list[1]);
 
-            Assert.Equal((double)960, actual);
+            Assert.Equal(960, actual);
+            Assert.Equal(800, actualPrice);
         }
 
         [Fact]
