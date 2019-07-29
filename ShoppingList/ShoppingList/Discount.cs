@@ -2,30 +2,22 @@ namespace Shopping
 {
     public class Discount
     {
-        public double TotalPrice(Product[] list)
-        {
-            double result = 0;
-            foreach (var item in list)
-            {
-                result += GetDiscountPerProduct(item);
-            }
+        readonly Product[] list;
 
-            return result;
+        public Discount(Product[] list)
+        {
+            this.list = list;
         }
 
-        public double GetDiscountPerProduct(Product item)
+        public double TotalPrice()
         {
-            if (item.IsCostForDiscount(item))
+            var sum = 0.0;
+            for (int i = 0; i < list.Length; i++)
             {
-                return item.ProcentageOff(item);
+                sum += list[i].GetPrices(list[i]);
             }
 
-            if (item.HasQuantityForDiscount(item))
-            {
-                return item.PayLessProducts(item);
-            }
-
-            return item.GetPrices(item);
+            return sum;
         }
     }
 }

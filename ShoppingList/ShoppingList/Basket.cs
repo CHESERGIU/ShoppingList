@@ -7,10 +7,10 @@ namespace Shopping
         readonly Discount pay;
         Product[] list;
 
-        public Basket()
+        public Basket(Product[] list)
         {
-            list = new Product[] { };
-            pay = new Discount();
+            this.list = list;
+            pay = new Discount(list);
         }
 
         public void Buy(Product product)
@@ -19,6 +19,6 @@ namespace Shopping
             list[list.Length - 1] = product;
         }
 
-        public double Pay() => pay.TotalPrice(list);
+        public double Pay() => pay.TotalPrice();
     }
 }

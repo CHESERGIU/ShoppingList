@@ -10,12 +10,13 @@ namespace ShoppingList.Tests
         public void BuyAndPayForMultipleProducts()
         {
             // Given
-            var shopping = new Basket();
             var onion = new Product("onion", 100, 1);
             var cherry = new Product("cherry", 100, 1);
             var cocaCola = new Product("cocaCola", 100, 1);
             var beer = new Product("beer", 100, 1);
             var wine = new Product("wine", 100, 1);
+            Product[] list = { onion, cherry, cocaCola, beer, wine };
+            var shopping = new Basket(list);
             shopping.Buy(onion);
             shopping.Buy(cherry);
             shopping.Buy(cocaCola);
@@ -26,18 +27,18 @@ namespace ShoppingList.Tests
             var actual = shopping.Pay();
 
             // Then
-            Assert.Equal((double)400, actual);
+            Assert.Equal((double)500, actual);
         }
 
         [Fact]
         public void BuyAndPayForMultipleProductsOffer()
         {
             // Given
-            var jhonny = new Basket();
             var onion = new Product("onion", 100, 1);
             var cherry = new Product("cherry", 100, 1);
             var cocaCola = new Product("cocaCola", 100, 1);
             Product[] list = { onion, cherry, cocaCola };
+            var jhonny = new Basket(list);
 
             // Offer
             jhonny.Buy(onion);
@@ -48,7 +49,7 @@ namespace ShoppingList.Tests
             var actual = jhonny.Pay();
 
             // Then
-            Assert.Equal((double)240, actual);
+            Assert.Equal((double)300, actual);
         }
     }
 }
