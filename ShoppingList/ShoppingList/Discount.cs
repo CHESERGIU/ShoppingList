@@ -1,22 +1,43 @@
+using System;
+
 namespace Shopping
 {
     public class Discount
     {
-        private readonly double quantity;
-        private readonly Product product;
+        readonly double quantity;
+        readonly decimal percentage;
+        readonly Product product;
+        readonly Discount discount;
 
-        public Discount(Product product, double quantity)
+        public Discount(DiscountType discountType, double quantity, decimal percentage)
         {
             this.quantity = quantity;
-            this.product = product;
+            this.percentage = percentage;
+            this.discount = new Discount(discountType, 0, 0);
+            this.product = new Product("", 0, discount);
         }
 
-        public double Price()
+        public enum DiscountType
         {
-            var sum = 0.0;
-            sum += product.GetPrice(quantity);
+            None,
+            Quantity = 5,
+            Price = 100
+        }
 
-            return sum;
+        public double GetDiscount()
+        {
+            if (product.IsDiscount(product, discount))
+            {
+                return product.GetPrice(quantity) * Percentage();
+            }
+
+            return product.GetPrice(quantity);
+        }
+
+        private double Percentage()
+        {
+            var percent = percentage / 100;
+            return Convert.ToDouble(percent);
         }
     }
 }

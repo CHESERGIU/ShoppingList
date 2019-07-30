@@ -9,10 +9,11 @@ namespace ShoppingList.Tests
         [Fact]
         public void WhenWeBuy5ProductMustReturnOfferTake5AndPay3()
         {
-            var product = new Product("mouse", 50);
+            const Discount.DiscountType discountType = (Discount.DiscountType)5;
+            var discount = new Discount(discountType, 5, 5);
+            var product = new Product("mouse", 50, discount);
             Product[] list = { product };
-            var discount = new Discount(product, 5);
-            var actual = discount.Price();
+            var actual = product.GetPrice(5);
 
             Assert.Equal(250, actual);
         }
@@ -20,9 +21,11 @@ namespace ShoppingList.Tests
         [Fact]
         public void WhenWeBuyProductsMoreThen100EuroMustReturn20ProcentageOff()
         {
-            var product1 = new Product("mouse", 100);
-            var product2 = new Product("laptop", 100);
-            var product3 = new Product("laptop bag", 100);
+            const Discount.DiscountType discountType = (Discount.DiscountType)5;
+            var discount = new Discount(discountType, 5, 5);
+            var product1 = new Product("mouse", 50, discount);
+            var product2 = new Product("laptop", 1000, discount);
+            var product3 = new Product("laptop bag", 125, discount);
             Product[] list =
             {
                 product1,
@@ -30,11 +33,7 @@ namespace ShoppingList.Tests
                 product3
             };
 
-            var discount1 = new Discount(product1, 10);
-            var discount2 = new Discount(product2, 1);
-            var discount3 = new Discount(product3, 1);
-
-            var actual = discount1.Price() + discount2.Price() + discount3.Price();
+            var actual = product1.GetPrice(5) + product2.GetPrice(5) + product3.GetPrice(5);
 
             Assert.Equal(1200, actual);
         }
