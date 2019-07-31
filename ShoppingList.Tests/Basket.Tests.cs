@@ -7,67 +7,81 @@ namespace ShoppingList.Tests
     public class BasketTests
     {
         [Fact]
-        public void BuyAndPayForMultipleProducts()
+        public void BuyAndPayForMultipleProductsWithoutDiscount()
         {
             // Given
-            const Discount.DiscountType discountType1 = (Discount.DiscountType)5;
-            const Discount.DiscountType discountType2 = (Discount.DiscountType)100;
-            var discount1 = new Discount(discountType1, 5, 5);
-            var discount2 = new Discount(discountType2, 10, 10);
+            var discount0 = new Discount(Discount.DiscountType.None, 0, 0);
 
-            var onion = new Product("onion", 3, discount1);
-            var cherry = new Product("cherry", 8, discount1);
-            var cocaCola = new Product("cocaCola", 4, discount2);
-            var beer = new Product("beer", 4, discount2);
-            var wine = new Product("wine", 15, discount1);
+            var onion = new Product("onion", 1, discount0);
+            var cherry = new Product("cherry", 2, discount0);
+            var cocaCola = new Product("cocaCola", 3, discount0);
+            var beer = new Product("beer", 4, discount0);
+            var wine = new Product("wine", 5, discount0);
             Product[] list = { onion, cherry, cocaCola, beer, wine };
+
+            // When
             var shopping = new Basket();
+
             shopping.Buy(onion);
             shopping.Buy(cherry);
             shopping.Buy(cocaCola);
             shopping.Buy(beer);
             shopping.Buy(wine);
 
-            // When
-            var actual1 = onion.GetPrice(6); // 3*6=18
-            var actual2 = cherry.GetPrice(6); // 8*6=48
-            var actual3 = cocaCola.GetPrice(6); // 4*6=24
-            var actual4 = beer.GetPrice(6); // 4*6=24
-            var actual5 = wine.GetPrice(6); // 15*6=90
-            var actual = actual1 + actual2 + actual3 + actual4 + actual5; // total=204
-
-            // Then
-            Assert.Equal((double)204, actual);
+            var actual = shopping.Pay(5);
+            Assert.Equal(75, actual);
         }
 
         [Fact]
-        public void BuyAndPayForMultipleProductsOffer()
+        public void BuyAndPayForMultipleProductsWithDiscountQuantity()
         {
             // Given
-            const Discount.DiscountType discountType1 = (Discount.DiscountType)5;
-            const Discount.DiscountType discountType2 = (Discount.DiscountType)100;
-            var discount1 = new Discount(discountType1, 5, 5);
-            var discount2 = new Discount(discountType2, 10, 10);
+            var discount1 = new Discount(Discount.DiscountType.Quantity, 5, 20);
 
-            var onion = new Product("onion", 3, discount1);
-            var cherry = new Product("cherry", 8, discount1);
-            var cocaCola = new Product("cocaCola", 4, discount2);
-            Product[] list = { onion, cherry, cocaCola };
-            var jhonny = new Basket();
-
-            // Offer
-            jhonny.Buy(onion);
-            jhonny.Buy(cherry);
-            jhonny.Buy(cocaCola);
+            var onion = new Product("onion", 1, discount1);
+            var cherry = new Product("cherry", 2, discount1);
+            var cocaCola = new Product("cocaCola", 3, discount1);
+            var beer = new Product("beer", 4, discount1);
+            var wine = new Product("wine", 5, discount1);
+            Product[] list = { onion, cherry, cocaCola, beer, wine };
 
             // When
-            var actual1 = onion.GetPrice(11); // 3*11=33
-            var actual2 = cherry.GetPrice(11); // 8*11=88
-            var actual3 = cocaCola.GetPrice(11); // 4*11=44
-            var actual = actual1 + actual2 + actual3; // total=165
+            var shopping = new Basket();
 
-            // Then
-            Assert.Equal((double)165, actual);
+            shopping.Buy(onion);
+            shopping.Buy(cherry);
+            shopping.Buy(cocaCola);
+            shopping.Buy(beer);
+            shopping.Buy(wine);
+
+            var actual = shopping.Pay(5);
+            Assert.Equal(60, actual);
+        }
+
+        [Fact]
+        public void BuyAndPayForMultipleProductsWithSixPackQuantity()
+        {
+            // Given
+            var discount2 = new Discount(Discount.DiscountType.SixPack, 0, 0);
+
+            var onion = new Product("onion", 1, discount2);
+            var cherry = new Product("cherry", 2, discount2);
+            var cocaCola = new Product("cocaCola", 3, discount2);
+            var beer = new Product("beer", 4, discount2);
+            var wine = new Product("wine", 5, discount2);
+            Product[] list = { onion, cherry, cocaCola, beer, wine };
+
+            // When
+            var shopping = new Basket();
+
+            shopping.Buy(onion);
+            shopping.Buy(cherry);
+            shopping.Buy(cocaCola);
+            shopping.Buy(beer);
+            shopping.Buy(wine);
+
+            var actual = shopping.Pay(6);
+            Assert.Equal(60, actual);
         }
     }
 }

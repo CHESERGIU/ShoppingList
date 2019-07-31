@@ -4,40 +4,37 @@ namespace Shopping
 {
     public class Discount
     {
-        readonly double quantity;
+        readonly DiscountType discountType;
+        readonly decimal quantity;
         readonly decimal percentage;
-        readonly Product product;
-        readonly Discount discount;
 
-        public Discount(DiscountType discountType, double quantity, decimal percentage)
+        public Discount(DiscountType discountType, decimal quantity, decimal percentage)
         {
             this.quantity = quantity;
             this.percentage = percentage;
-            this.discount = new Discount(discountType, 0, 0);
-            this.product = new Product("", 0, discount);
+            this.discountType = discountType;
         }
 
         public enum DiscountType
         {
             None,
             Quantity = 5,
-            Price = 100
+            SixPack = 6
         }
 
-        public double GetDiscount()
+        public decimal GetDiscount()
         {
-            if (product.IsDiscount(product, discount))
+            decimal[] discountQuantity = { quantity * percentage / 100, 2 };
+
+            switch (discountType)
             {
-                return product.GetPrice(quantity) * Percentage();
+                case DiscountType.Quantity:
+                    return discountQuantity[0];
+                case DiscountType.SixPack:
+                    return discountQuantity[1];
+                default:
+                    return quantity;
             }
-
-            return product.GetPrice(quantity);
-        }
-
-        private double Percentage()
-        {
-            var percent = percentage / 100;
-            return Convert.ToDouble(percent);
         }
     }
 }

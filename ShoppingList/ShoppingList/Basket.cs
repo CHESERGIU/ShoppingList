@@ -16,5 +16,16 @@ namespace Shopping
             Array.Resize(ref list, list.Length + 1);
             list[list.Length - 1] = product;
         }
+
+        public decimal Pay(decimal quantity)
+        {
+            decimal result = 0;
+            foreach (var item in list)
+            {
+                result += item.GetPrice(quantity);
+            }
+
+            return result;
+        }
     }
 }

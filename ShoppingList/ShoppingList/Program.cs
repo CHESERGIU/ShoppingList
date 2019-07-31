@@ -1,4 +1,6 @@
-﻿namespace Shopping
+﻿using System;
+
+namespace Shopping
 {
     public static class Program
     {
