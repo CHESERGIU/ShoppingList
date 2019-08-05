@@ -2,39 +2,43 @@ using System;
 
 namespace Shopping
 {
-    public class Discount
+    public partial class Discount
     {
-        readonly DiscountType discountType;
+        readonly DiscountType type;
         readonly decimal quantity;
-        readonly decimal percentage;
+        readonly decimal discounted;
 
-        public Discount(DiscountType discountType, decimal quantity, decimal percentage)
+        public Discount(DiscountType type, decimal quantity, decimal discounted)
         {
             this.quantity = quantity;
-            this.percentage = percentage;
-            this.discountType = discountType;
+            this.discounted = discounted;
+            this.type = type;
         }
 
-        public enum DiscountType
+        public decimal GetDiscount(decimal result, Discount discount)
         {
-            None,
-            Quantity = 5,
-            SixPack = 6
-        }
-
-        public decimal GetDiscount()
-        {
-            decimal[] discountQuantity = { quantity * percentage / 100, 2 };
-
-            switch (discountType)
+            decimal[] percent = { discounted / 100 };
+            if (discount.type == DiscountType.Quantity && result >= quantity)
             {
-                case DiscountType.Quantity:
-                    return discountQuantity[0];
-                case DiscountType.SixPack:
-                    return discountQuantity[1];
-                default:
-                    return quantity;
+                return quantity * (1 - percent[0]) + (result - quantity);
             }
+
+            if (discount.type == DiscountType.TenPack && result >= discounted)
+            {
+                return result - quantity;
+            }
+
+            if (discount.type == DiscountType.PriceOff)
+            {
+                return result * (1 - percent[0]);
+            }
+
+            if (discount.type == DiscountType.Free && result >= quantity)
+            {
+                return result - discounted;
+            }
+
+            return result;
         }
     }
 }
