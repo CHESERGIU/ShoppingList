@@ -15,26 +15,26 @@ namespace Shopping
             this.discount = discount;
         }
 
-        public decimal GetPrice(decimal quantity, Discount.DiscountType type)
+        public decimal GetPrice(decimal quantity)
         {
-            if (type == Discount.DiscountType.Quantity)
+            if (discount.IsQuantity(discount))
             {
-                return discount.GetDiscount(quantity, discount) * price;
+                return discount.Apply(quantity, discount) * price;
             }
 
-            if (type == Discount.DiscountType.TenPack)
+            if (discount.IsTenPack(discount))
             {
-                return discount.GetDiscount(quantity, discount) * price;
+                return discount.Apply(quantity, discount) * price;
             }
 
-            if (type == Discount.DiscountType.PriceOff)
+            if (discount.IsPriceOff(discount))
             {
-                return discount.GetDiscount(price, discount) * quantity;
+                return discount.Apply(price, discount) * quantity;
             }
 
-            if (type == Discount.DiscountType.Free)
+            if (discount.IsFree(discount))
             {
-                return price * discount.GetDiscount(quantity, discount);
+                return price * discount.Apply(quantity, discount);
             }
 
             return price * quantity;

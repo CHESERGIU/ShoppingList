@@ -21,11 +21,11 @@ namespace ShoppingList.Tests
             // When
             var shopping = new Basket();
             shopping.Buy(onion, 100); // 100kg
-            var actual = shopping.Pay(Discount.DiscountType.None);
-            var actual1 = shopping.Pay(Discount.DiscountType.PriceOff);
-            var actual2 = shopping.Pay(Discount.DiscountType.Quantity);
-            var actual3 = shopping.Pay(Discount.DiscountType.TenPack);
-            var actual4 = shopping.Pay(Discount.DiscountType.Free);
+            var actual = shopping.Pay();
+            var actual1 = shopping.Pay();
+            var actual2 = shopping.Pay();
+            var actual3 = shopping.Pay();
+            var actual4 = shopping.Pay();
             Assert.Equal(90, actual4);
         }
 
@@ -40,7 +40,7 @@ namespace ShoppingList.Tests
             // When
             var shopping = new Basket();
             shopping.Buy(onion, 10);
-            var actual = shopping.Pay(Discount.DiscountType.None);
+            var actual = shopping.Pay();
 
             Assert.Equal(100, actual);
         }
@@ -61,7 +61,7 @@ namespace ShoppingList.Tests
             // When
             var shopping = new Basket();
             shopping.Buy(onion, 20);
-            var actual = shopping.Pay(Discount.DiscountType.Quantity);
+            var actual = shopping.Pay();
             Assert.Equal(18, actual);
         }
 
@@ -87,7 +87,7 @@ namespace ShoppingList.Tests
             shopping.Buy(beer, 1);
             shopping.Buy(wine, 1);
 
-            var actual = shopping.Pay(Discount.DiscountType.TenPack);
+            var actual = shopping.Pay();
 
             Assert.Equal(15, actual);
         }

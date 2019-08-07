@@ -13,7 +13,7 @@ namespace ShoppingList.Tests
             var discount = new Discount(discountType, 10, 40); // 40% off from 10 products
 
             const decimal quantity = 10;
-            var actual = discount.GetDiscount(quantity, discount);
+            var actual = discount.Apply(quantity, discount);
 
             Assert.Equal(6, actual);
         }
@@ -25,7 +25,7 @@ namespace ShoppingList.Tests
             var discount = new Discount(discountType, 1000, 10);
 
             const decimal quantity = 1000;
-            var actual = discount.GetDiscount(quantity, discount);
+            var actual = discount.Apply(quantity, discount);
 
             Assert.Equal(900, actual);
         }

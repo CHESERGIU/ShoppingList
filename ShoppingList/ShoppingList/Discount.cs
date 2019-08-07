@@ -4,36 +4,36 @@ namespace Shopping
 {
     public partial class Discount
     {
-        readonly DiscountType type;
-        readonly decimal quantity;
         readonly decimal discounted;
+        readonly decimal quantity;
+        readonly DiscountType type;
 
         public Discount(DiscountType type, decimal quantity, decimal discounted)
         {
+            this.type = type;
             this.quantity = quantity;
             this.discounted = discounted;
-            this.type = type;
         }
 
-        public decimal GetDiscount(decimal result, Discount discount)
+        public decimal Apply(decimal result, Discount discount)
         {
             decimal[] percent = { discounted / 100 };
-            if (discount.type == DiscountType.Quantity && result >= quantity)
+            if (IsQuantity(discount) && result >= quantity)
             {
                 return quantity * (1 - percent[0]) + (result - quantity);
             }
 
-            if (discount.type == DiscountType.TenPack && result >= discounted)
+            if (IsTenPack(discount) && result >= discounted)
             {
                 return result - quantity;
             }
 
-            if (discount.type == DiscountType.PriceOff)
+            if (IsPriceOff(discount))
             {
                 return result * (1 - percent[0]);
             }
 
-            if (discount.type == DiscountType.Free && result >= quantity)
+            if (IsFree(discount) && result >= quantity)
             {
                 return result - discounted;
             }

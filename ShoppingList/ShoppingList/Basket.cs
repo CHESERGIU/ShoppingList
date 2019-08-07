@@ -21,12 +21,12 @@ namespace Shopping
             amount[amount.Length - 1] = quantity;
         }
 
-        public decimal Pay(Discount.DiscountType type)
+        public decimal Pay()
         {
             decimal result = 0;
             for (int i = 0; i < list.Length; i++)
             {
-                result += list[i].GetPrice(amount[i], type);
+                result += list[i].GetPrice(amount[i]);
             }
 
             return result;
